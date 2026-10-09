@@ -1,0 +1,80 @@
+{
+  "source": "fixed text replay; real Piper and ffplay",
+  "runs_per_mode": 3,
+  "warmups_per_mode": 1,
+  "note": "Playback timestamps measure process launch, not acoustic onset. Small samples are not a stable p95 estimate.",
+  "results": {
+    "full": {
+      "first_playback_s": {
+        "median": 6.773,
+        "p95": 6.8
+      },
+      "total_s": {
+        "median": 10.676,
+        "p95": 10.823
+      },
+      "max_gap_s": {
+        "median": 0,
+        "p95": 0
+      },
+      "overlapping_runs": 0
+    },
+    "streamed": {
+      "first_playback_s": {
+        "median": 1.731,
+        "p95": 1.735
+      },
+      "total_s": {
+        "median": 8.075,
+        "p95": 8.289
+      },
+      "max_gap_s": {
+        "median": 1.363,
+        "p95": 1.365
+      },
+      "overlapping_runs": 3
+    }
+  },
+  "samples": {
+    "full": [
+      {
+        "first_playback_s": 6.772144200000184,
+        "total_s": 10.554325699999936,
+        "max_gap_s": 0,
+        "playback_before_generation_done": false
+      },
+      {
+        "first_playback_s": 6.772621500000241,
+        "total_s": 10.675556700000016,
+        "max_gap_s": 0,
+        "playback_before_generation_done": false
+      },
+      {
+        "first_playback_s": 6.800034999999298,
+        "total_s": 10.823246299999482,
+        "max_gap_s": 0,
+        "playback_before_generation_done": false
+      }
+    ],
+    "streamed": [
+      {
+        "first_playback_s": 1.7348313000002236,
+        "total_s": 8.288602900000114,
+        "max_gap_s": 1.3625058999996327,
+        "playback_before_generation_done": true
+      },
+      {
+        "first_playback_s": 1.7310702000004312,
+        "total_s": 8.043345200000658,
+        "max_gap_s": 1.2131971999997404,
+        "playback_before_generation_done": true
+      },
+      {
+        "first_playback_s": 1.7313156999998682,
+        "total_s": 8.075046899999506,
+        "max_gap_s": 1.3646935000006124,
+        "playback_before_generation_done": true
+      }
+    ]
+  }
+}

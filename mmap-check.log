@@ -1,0 +1,35 @@
+0.00.015.987 I srv  llama_server: initializing ...
+0.00.015.993 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.016.216 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.018.694 I srv    load_model: loading model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-QAT-Q4_0.gguf'
+0.01.088.400 E llama_init_from_model: failed to initialize the context: Gemma4Assistant requires ctx_other to be set (this warning is normal during memory fitting)
+0.01.145.952 W operator(): failed to measure the memory of the extra model, fitting without it: failed to create llama_context from model
+0.01.501.683 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.501.910 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.533.828 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.423.469 I cmn          init: llama threadpool init, n_threads = 8
+0.04.553.609 I common_speculative_init_result: loading draft model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf'
+0.04.920.324 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.920.541 W load: control-looking token:    106 '<turn|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.920.675 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.954.959 W load: '</s>' is a normal token here, removing it from EOG list
+0.05.230.945 W llama_kv_cache: layer   3: sharing with layer 47. k = 00000216D4650000, v = 00000216D6650000
+0.05.230.967 W llama_kv_cache: layer   0: sharing with layer 46. k = 0000021730250000, v = 0000021731450000
+0.05.230.968 W llama_kv_cache: layer   1: sharing with layer 46. k = 0000021730250000, v = 0000021731450000
+0.05.230.969 W llama_kv_cache: layer   2: sharing with layer 46. k = 0000021730250000, v = 0000021731450000
+0.05.241.710 W srv    load_model: cap image_max_tokens (original=1120) to 512 (n_ubatch = 512) because model needs non-causal attention on image
+0.05.241.716 W srv    load_model: increase n_ubatch (-ub) to increase vision token budget
+0.05.540.092 W init_audio: audio input is in experimental stage and may have reduced quality:
+    https://github.com/ggml-org/llama.cpp/discussions/13759
+0.05.540.098 I srv    load_model: loaded multimodal model, 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\mmproj-gemma-4-12B-it-QAT-BF16.gguf'
+0.05.626.575 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.05.648.450 I srv  llama_server: model loaded
+0.05.648.458 I srv  llama_server: listening on http://127.0.0.1:18080
+0.06.356.263 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.06.356.314 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.06.603.249 I slot print_timing: id  3 | task 0 | prompt eval time =     152.22 ms /    20 tokens (    7.61 ms per token,   131.39 tokens per second)
+0.06.603.254 I slot print_timing: id  3 | task 0 |        eval time =      94.61 ms /     8 tokens (   13.52 ms per token,    73.99 tokens per second)
+0.06.603.255 I slot print_timing: id  3 | task 0 |       total time =     246.83 ms /    28 tokens
+0.06.603.256 I slot print_timing: id  3 | task 0 |    graphs reused =          2
+0.06.603.260 I slot print_timing: id  3 | task 0 | draft acceptance = 1.00000 (    5 accepted /     5 generated), mean len =  3.50
+0.06.603.302 I slot      release: id  3 | task 0 | stop processing: n_tokens = 27, truncated = 0

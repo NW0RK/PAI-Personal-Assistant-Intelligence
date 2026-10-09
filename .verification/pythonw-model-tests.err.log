@@ -1,0 +1,9 @@
+test_desktop_start_pause_resume_and_owned_cleanup (test_desktop_model.ModelTests.test_desktop_start_pause_resume_and_owned_cleanup) ... ok
+test_screen_shared_reply_and_media_cleanup (test_desktop_model.ModelTests.test_screen_shared_reply_and_media_cleanup) ... ok
+test_streamed_spoken_reply (test_desktop_model.ModelTests.test_streamed_spoken_reply) ... ok
+test_voice_only_reply_and_media_cleanup (test_desktop_model.ModelTests.test_voice_only_reply_and_media_cleanup) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 16.418s
+
+OK

@@ -1,0 +1,54 @@
+0.00.017.638 I srv  llama_server: initializing ...
+0.00.017.645 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.017.902 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.025.282 I srv    load_model: loading model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-QAT-Q4_0.gguf'
+0.00.999.617 E llama_init_from_model: failed to initialize the context: Gemma4Assistant requires ctx_other to be set (this warning is normal during memory fitting)
+0.01.055.335 W operator(): failed to measure the memory of the extra model, fitting without it: failed to create llama_context from model
+0.01.397.020 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.397.236 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.417.727 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.149.396 I cmn          init: llama threadpool init, n_threads = 8
+0.04.232.603 I common_speculative_init_result: loading draft model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf'
+0.04.571.757 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.571.891 W load: control-looking token:    106 '<turn|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.571.969 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.591.992 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.778.507 W llama_kv_cache: layer   3: sharing with layer 47. k = 0000024AD4650000, v = 0000024AD6650000
+0.04.778.534 W llama_kv_cache: layer   0: sharing with layer 46. k = 0000024B30250000, v = 0000024B31450000
+0.04.778.535 W llama_kv_cache: layer   1: sharing with layer 46. k = 0000024B30250000, v = 0000024B31450000
+0.04.778.536 W llama_kv_cache: layer   2: sharing with layer 46. k = 0000024B30250000, v = 0000024B31450000
+0.04.788.367 W srv    load_model: cap image_max_tokens (original=1120) to 512 (n_ubatch = 512) because model needs non-causal attention on image
+0.04.788.372 W srv    load_model: increase n_ubatch (-ub) to increase vision token budget
+0.04.980.706 W init_audio: audio input is in experimental stage and may have reduced quality:
+    https://github.com/ggml-org/llama.cpp/discussions/13759
+0.04.980.716 I srv    load_model: loaded multimodal model, 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\mmproj-gemma-4-12B-it-QAT-BF16.gguf'
+0.05.009.474 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.05.026.299 I srv  llama_server: model loaded
+0.05.026.304 I srv  llama_server: listening on http://127.0.0.1:8080
+0.05.026.305 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)
+2.10.973.684 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+2.10.973.807 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+2.11.644.943 I slot print_timing: id  3 | task 0 | prompt eval time =     597.58 ms /   178 tokens (    3.36 ms per token,   297.87 tokens per second)
+2.11.644.948 I slot print_timing: id  3 | task 0 |        eval time =      73.43 ms /    12 tokens (    6.68 ms per token,   149.81 tokens per second)
+2.11.644.949 I slot print_timing: id  3 | task 0 |       total time =     671.01 ms /   190 tokens
+2.11.644.950 I slot print_timing: id  3 | task 0 |    graphs reused =          3
+2.11.644.953 I slot print_timing: id  3 | task 0 | draft acceptance = 1.00000 (    9 accepted /     9 generated), mean len =  4.00
+2.11.645.012 I slot      release: id  3 | task 0 | stop processing: n_tokens = 190, truncated = 0
+2.42.469.451 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.576 (> 0.100 thold), f_keep = 0.500
+2.42.469.669 I slot launch_slot_: id  3 | task 8 | processing task, is_child = 0
+2.43.088.799 I slot print_timing: id  3 | task 8 | prompt eval time =     192.16 ms /    75 tokens (    2.56 ms per token,   390.30 tokens per second)
+2.43.088.803 I slot print_timing: id  3 | task 8 |        eval time =     426.88 ms /    61 tokens (    7.11 ms per token,   140.56 tokens per second)
+2.43.088.804 I slot print_timing: id  3 | task 8 |       total time =     619.04 ms /   136 tokens
+2.43.088.805 I slot print_timing: id  3 | task 8 |    graphs reused =         20
+2.43.088.809 I slot print_timing: id  3 | task 8 | draft acceptance = 0.77778 (   42 accepted /    54 generated), mean len =  3.33
+2.43.088.844 I slot      release: id  3 | task 8 | stop processing: n_tokens = 225, truncated = 0
+3.00.810.654 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\screen.jpg'
+3.00.814.947 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\utterance.wav'
+3.00.833.848 I slot get_availabl: id  2 | task -1 | selected slot by LRU, t_last = -1
+3.00.833.882 I slot launch_slot_: id  2 | task 31 | processing task, is_child = 0
+3.02.559.394 I slot print_timing: id  2 | task 31 | prompt eval time =     735.67 ms /   740 tokens (    0.99 ms per token,  1005.89 tokens per second)
+3.02.559.398 I slot print_timing: id  2 | task 31 |        eval time =     957.37 ms /    99 tokens (    9.77 ms per token,   102.36 tokens per second)
+3.02.559.399 I slot print_timing: id  2 | task 31 |       total time =    1693.04 ms /   839 tokens
+3.02.559.400 I slot print_timing: id  2 | task 31 |    graphs reused =         58
+3.02.559.404 I slot print_timing: id  2 | task 31 | draft acceptance = 0.49167 (   59 accepted /   120 generated), mean len =  2.48
+3.02.559.442 I slot      release: id  2 | task 31 | stop processing: n_tokens = 839, truncated = 0

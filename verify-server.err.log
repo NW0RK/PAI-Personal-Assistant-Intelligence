@@ -1,0 +1,287 @@
+0.00.022.341 I srv  llama_server: initializing ...
+0.00.022.346 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.022.858 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.031.223 I srv    load_model: loading model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-QAT-Q4_0.gguf'
+0.01.143.019 E llama_init_from_model: failed to initialize the context: Gemma4Assistant requires ctx_other to be set (this warning is normal during memory fitting)
+0.01.200.680 W operator(): failed to measure the memory of the extra model, fitting without it: failed to create llama_context from model
+0.01.573.809 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.574.108 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.602.657 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.218.908 I cmn          init: llama threadpool init, n_threads = 8
+0.04.302.091 I common_speculative_init_result: loading draft model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf'
+0.04.654.823 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.655.013 W load: control-looking token:    106 '<turn|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.655.124 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.685.721 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.855.380 W llama_kv_cache: layer   3: sharing with layer 47. k = 000001DDD4650000, v = 000001DDD6650000
+0.04.855.404 W llama_kv_cache: layer   0: sharing with layer 46. k = 000001DE30250000, v = 000001DE31450000
+0.04.855.405 W llama_kv_cache: layer   1: sharing with layer 46. k = 000001DE30250000, v = 000001DE31450000
+0.04.855.406 W llama_kv_cache: layer   2: sharing with layer 46. k = 000001DE30250000, v = 000001DE31450000
+0.04.866.034 W srv    load_model: cap image_max_tokens (original=1120) to 512 (n_ubatch = 512) because model needs non-causal attention on image
+0.04.866.039 W srv    load_model: increase n_ubatch (-ub) to increase vision token budget
+0.05.110.081 W init_audio: audio input is in experimental stage and may have reduced quality:
+    https://github.com/ggml-org/llama.cpp/discussions/13759
+0.05.110.090 I srv    load_model: loaded multimodal model, 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\mmproj-gemma-4-12B-it-QAT-BF16.gguf'
+0.05.141.976 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.05.159.074 I srv  llama_server: model loaded
+0.05.159.079 I srv  llama_server: listening on http://127.0.0.1:8080
+0.05.159.080 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)
+0.09.981.724 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.09.982.193 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.09.995.181 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.09.995.253 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.11.350.026 I slot print_timing: id  3 | task 0 | prompt eval time =    1004.11 ms /   568 tokens (    1.77 ms per token,   565.68 tokens per second)
+0.11.350.030 I slot print_timing: id  3 | task 0 |        eval time =     350.53 ms /    40 tokens (    8.99 ms per token,   111.26 tokens per second)
+0.11.350.031 I slot print_timing: id  3 | task 0 |       total time =    1354.63 ms /   608 tokens
+0.11.350.032 I slot print_timing: id  3 | task 0 |    graphs reused =         15
+0.11.350.035 I slot print_timing: id  3 | task 0 | draft acceptance = 0.53333 (   24 accepted /    45 generated), mean len =  2.60
+0.11.350.076 I slot      release: id  3 | task 0 | stop processing: n_tokens = 607, truncated = 0
+0.11.365.552 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.11.365.932 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.11.366.162 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.11.366.398 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.11.392.149 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.508 (> 0.100 thold), f_keep = 0.929
+0.11.392.281 I slot launch_slot_: id  3 | task 22 | processing task, is_child = 0
+0.12.552.894 I slot print_timing: id  3 | task 22 | prompt eval time =     641.43 ms /   547 tokens (    1.17 ms per token,   852.78 tokens per second)
+0.12.552.899 I slot print_timing: id  3 | task 22 |        eval time =     519.10 ms /    53 tokens (    9.98 ms per token,   100.17 tokens per second)
+0.12.552.900 I slot print_timing: id  3 | task 22 |       total time =    1160.53 ms /   600 tokens
+0.12.552.901 I slot print_timing: id  3 | task 22 |    graphs reused =         36
+0.12.552.905 I slot print_timing: id  3 | task 22 | draft acceptance = 0.45455 (   30 accepted /    66 generated), mean len =  2.36
+0.12.552.943 I slot      release: id  3 | task 22 | stop processing: n_tokens = 1162, truncated = 0
+0.12.553.784 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.12.554.096 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.12.554.286 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.12.554.515 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.12.554.872 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.12.555.137 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.12.595.636 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.668 (> 0.100 thold), f_keep = 0.952
+0.12.595.769 I slot launch_slot_: id  3 | task 51 | processing task, is_child = 0
+0.13.578.945 I slot print_timing: id  3 | task 51 | prompt eval time =     672.15 ms /   550 tokens (    1.22 ms per token,   818.26 tokens per second)
+0.13.578.949 I slot print_timing: id  3 | task 51 |        eval time =     310.94 ms /    34 tokens (    9.42 ms per token,   106.13 tokens per second)
+0.13.578.950 I slot print_timing: id  3 | task 51 |       total time =     983.09 ms /   584 tokens
+0.13.578.951 I slot print_timing: id  3 | task 51 |    graphs reused =         48
+0.13.578.954 I slot print_timing: id  3 | task 51 | draft acceptance = 0.51282 (   20 accepted /    39 generated), mean len =  2.54
+0.13.578.987 I slot      release: id  3 | task 51 | stop processing: n_tokens = 1689, truncated = 0
+0.13.598.818 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.13.599.351 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.13.599.654 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.13.599.880 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.13.600.213 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.13.600.486 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.13.600.831 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.13.601.064 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.13.652.468 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.716 (> 0.100 thold), f_keep = 0.978
+0.13.652.600 I slot launch_slot_: id  3 | task 71 | processing task, is_child = 0
+0.14.725.186 I slot print_timing: id  3 | task 71 | prompt eval time =     678.29 ms /   654 tokens (    1.04 ms per token,   964.19 tokens per second)
+0.14.725.191 I slot print_timing: id  3 | task 71 |        eval time =     394.20 ms /    41 tokens (    9.86 ms per token,   101.47 tokens per second)
+0.14.725.192 I slot print_timing: id  3 | task 71 |       total time =    1072.49 ms /   695 tokens
+0.14.725.193 I slot print_timing: id  3 | task 71 |    graphs reused =         63
+0.14.725.197 I slot print_timing: id  3 | task 71 | draft acceptance = 0.50000 (   24 accepted /    48 generated), mean len =  2.50
+0.14.725.242 I slot      release: id  3 | task 71 | stop processing: n_tokens = 2346, truncated = 0
+0.14.747.470 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.14.747.760 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.14.747.978 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.14.748.254 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.14.748.667 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.14.748.981 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.14.749.362 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.14.749.642 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.14.750.568 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.jpg'
+0.14.750.860 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.wav'
+0.14.817.138 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.818 (> 0.100 thold), f_keep = 0.981
+0.14.817.267 I slot launch_slot_: id  3 | task 93 | processing task, is_child = 0
+0.15.878.312 I slot print_timing: id  3 | task 93 | prompt eval time =     636.38 ms /   513 tokens (    1.24 ms per token,   806.12 tokens per second)
+0.15.878.317 I slot print_timing: id  3 | task 93 |        eval time =     424.57 ms /    43 tokens (   10.11 ms per token,    98.92 tokens per second)
+0.15.878.317 I slot print_timing: id  3 | task 93 |       total time =    1060.95 ms /   556 tokens
+0.15.878.318 I slot print_timing: id  3 | task 93 |    graphs reused =         79
+0.15.878.322 I slot print_timing: id  3 | task 93 | draft acceptance = 0.49020 (   25 accepted /    51 generated), mean len =  2.47
+0.15.878.364 I slot      release: id  3 | task 93 | stop processing: n_tokens = 2857, truncated = 0
+0.15.879.202 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.15.879.543 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.15.879.791 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.15.880.103 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.15.880.572 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.15.880.935 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.15.881.330 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.15.881.574 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.15.882.373 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.jpg'
+0.15.882.637 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.wav'
+0.15.882.850 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.jpg'
+0.15.883.506 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.wav'
+0.15.961.882 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.848 (> 0.100 thold), f_keep = 0.984
+0.15.962.018 I slot launch_slot_: id  3 | task 116 | processing task, is_child = 0
+0.17.262.312 I slot print_timing: id  3 | task 116 | prompt eval time =     669.75 ms /   504 tokens (    1.33 ms per token,   752.51 tokens per second)
+0.17.262.316 I slot print_timing: id  3 | task 116 |        eval time =     630.45 ms /    43 tokens (   15.01 ms per token,    66.62 tokens per second)
+0.17.262.316 I slot print_timing: id  3 | task 116 |       total time =    1300.20 ms /   547 tokens
+0.17.262.317 I slot print_timing: id  3 | task 116 |    graphs reused =        102
+0.17.262.321 I slot print_timing: id  3 | task 116 | draft acceptance = 0.22667 (   17 accepted /    75 generated), mean len =  1.68
+0.17.262.363 I slot      release: id  3 | task 116 | stop processing: n_tokens = 3357, truncated = 0
+0.17.281.706 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.17.282.221 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.17.282.659 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.17.282.943 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.17.283.325 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.17.283.619 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.17.283.922 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.17.284.143 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.17.284.864 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.jpg'
+0.17.285.133 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.wav'
+0.17.285.389 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.jpg'
+0.17.285.615 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.wav'
+0.17.285.792 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.jpg'
+0.17.286.369 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.wav'
+0.17.376.910 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.858 (> 0.100 thold), f_keep = 0.986
+0.17.377.062 I slot launch_slot_: id  3 | task 147 | processing task, is_child = 0
+0.18.395.795 I slot print_timing: id  3 | task 147 | prompt eval time =     722.29 ms /   549 tokens (    1.32 ms per token,   760.09 tokens per second)
+0.18.395.800 I slot print_timing: id  3 | task 147 |        eval time =     296.35 ms /    20 tokens (   15.60 ms per token,    64.11 tokens per second)
+0.18.395.801 I slot print_timing: id  3 | task 147 |       total time =    1018.63 ms /   569 tokens
+0.18.395.802 I slot print_timing: id  3 | task 147 |    graphs reused =        110
+0.18.395.805 I slot print_timing: id  3 | task 147 | draft acceptance = 0.40741 (   11 accepted /    27 generated), mean len =  2.22
+0.18.395.857 I slot      release: id  3 | task 147 | stop processing: n_tokens = 3880, truncated = 0
+0.18.400.184 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.18.400.477 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.18.400.696 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.18.400.945 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.18.401.319 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.18.401.598 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.18.401.934 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.18.402.181 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.18.403.003 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.jpg'
+0.18.403.256 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.wav'
+0.18.403.488 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.jpg'
+0.18.403.730 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.wav'
+0.18.403.918 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.jpg'
+0.18.404.149 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.wav'
+0.18.404.510 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ac94c597bb9b484c850e9a6072335e23.jpg'
+0.18.405.285 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ac94c597bb9b484c850e9a6072335e23.wav'
+0.18.531.899 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.872 (> 0.100 thold), f_keep = 0.994
+0.18.532.087 I slot launch_slot_: id  3 | task 163 | processing task, is_child = 0
+0.19.462.740 I slot print_timing: id  3 | task 163 | prompt eval time =     716.08 ms /   568 tokens (    1.26 ms per token,   793.21 tokens per second)
+0.19.462.747 I slot print_timing: id  3 | task 163 |        eval time =     214.43 ms /    23 tokens (    9.75 ms per token,   102.60 tokens per second)
+0.19.462.749 I slot print_timing: id  3 | task 163 |       total time =     930.51 ms /   591 tokens
+0.19.462.749 I slot print_timing: id  3 | task 163 |    graphs reused =        117
+0.19.462.754 I slot print_timing: id  3 | task 163 | draft acceptance = 0.62500 (   15 accepted /    24 generated), mean len =  2.88
+0.19.462.812 I slot      release: id  3 | task 163 | stop processing: n_tokens = 4447, truncated = 0
+0.19.464.957 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.jpg'
+0.19.465.299 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b91168ef54d844eb9735bc8d7ecf3257.wav'
+0.19.465.512 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.jpg'
+0.19.465.738 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ca37ac103bc64ea098d1d36acbab49d6.wav'
+0.19.466.075 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.jpg'
+0.19.466.336 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\a66436beabcc48d5a78a3fd24f2a6e00.wav'
+0.19.466.683 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.jpg'
+0.19.466.939 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\7801267714f947248c7b98d0f5e2557c.wav'
+0.19.467.717 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.jpg'
+0.19.467.946 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\e95ecc0e68ef472baf5f1137a9c3a1ef.wav'
+0.19.468.153 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.jpg'
+0.19.468.388 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\9179876f7612445bbec6722d07f50c2f.wav'
+0.19.468.552 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.jpg'
+0.19.468.756 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\f141e69917f84f109ad82a9d4bdda0d2.wav'
+0.19.469.078 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ac94c597bb9b484c850e9a6072335e23.jpg'
+0.19.469.396 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\ac94c597bb9b484c850e9a6072335e23.wav'
+0.19.469.869 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\screen.jpg'
+0.19.470.660 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\test_speech.wav'
+0.19.592.168 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.881 (> 0.100 thold), f_keep = 0.994
+0.19.592.414 I slot launch_slot_: id  3 | task 177 | processing task, is_child = 0
+0.20.706.541 I slot print_timing: id  3 | task 177 | prompt eval time =     750.30 ms /   599 tokens (    1.25 ms per token,   798.35 tokens per second)
+0.20.706.545 I slot print_timing: id  3 | task 177 |        eval time =     363.69 ms /    38 tokens (    9.83 ms per token,   101.74 tokens per second)
+0.20.706.546 I slot print_timing: id  3 | task 177 |       total time =    1113.98 ms /   637 tokens
+0.20.706.546 I slot print_timing: id  3 | task 177 |    graphs reused =        130
+0.20.706.550 I slot print_timing: id  3 | task 177 | draft acceptance = 0.54762 (   23 accepted /    42 generated), mean len =  2.64
+0.20.706.597 I slot      release: id  3 | task 177 | stop processing: n_tokens = 5056, truncated = 0
+46.48.444.651 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.jpg'
+46.48.448.892 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.wav'
+46.48.466.276 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.205 (> 0.100 thold), f_keep = 0.022
+46.50.008.420 I slot launch_slot_: id  3 | task 197 | processing task, is_child = 0
+46.51.856.544 I slot print_timing: id  3 | task 197 | prompt eval time =     921.84 ms /   442 tokens (    2.09 ms per token,   479.48 tokens per second)
+46.51.856.548 I slot print_timing: id  3 | task 197 |        eval time =     926.17 ms /    32 tokens (   29.88 ms per token,    33.47 tokens per second)
+46.51.856.549 I slot print_timing: id  3 | task 197 |       total time =    1848.01 ms /   474 tokens
+46.51.856.550 I slot print_timing: id  3 | task 197 |    graphs reused =        141
+46.51.856.554 I slot print_timing: id  3 | task 197 | draft acceptance = 0.52778 (   19 accepted /    36 generated), mean len =  2.58
+46.51.856.791 I slot      release: id  3 | task 197 | stop processing: n_tokens = 581, truncated = 0
+47.07.458.716 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.jpg'
+47.07.460.616 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.wav'
+47.07.461.080 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\da60e2b2beae4297881bbdabbe22d924.jpg'
+47.07.468.949 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\da60e2b2beae4297881bbdabbe22d924.wav'
+47.07.502.537 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.491 (> 0.100 thold), f_keep = 0.940
+47.07.502.665 I slot launch_slot_: id  3 | task 215 | processing task, is_child = 0
+47.09.224.213 I slot print_timing: id  3 | task 215 | prompt eval time =     780.22 ms /   566 tokens (    1.38 ms per token,   725.43 tokens per second)
+47.09.224.218 I slot print_timing: id  3 | task 215 |        eval time =     941.22 ms /    41 tokens (   23.53 ms per token,    42.50 tokens per second)
+47.09.224.220 I slot print_timing: id  3 | task 215 |       total time =    1721.45 ms /   607 tokens
+47.09.224.225 I slot print_timing: id  3 | task 215 |    graphs reused =        152
+47.09.224.229 I slot print_timing: id  3 | task 215 | draft acceptance = 0.80556 (   29 accepted /    36 generated), mean len =  3.42
+47.09.224.282 I slot      release: id  3 | task 215 | stop processing: n_tokens = 1152, truncated = 0
+47.25.450.596 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.jpg'
+47.25.450.842 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\b465d59cb64d4c119873ccbd0484705e.wav'
+47.25.450.964 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\da60e2b2beae4297881bbdabbe22d924.jpg'
+47.25.451.245 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\da60e2b2beae4297881bbdabbe22d924.wav'
+47.25.451.687 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\d413aed6cea74bb7a6a210250ba3fe6b.jpg'
+47.25.455.807 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\d413aed6cea74bb7a6a210250ba3fe6b.wav'
+47.25.499.379 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.676 (> 0.100 thold), f_keep = 0.961
+47.25.499.601 I slot launch_slot_: id  3 | task 233 | processing task, is_child = 0
+47.27.140.403 I slot print_timing: id  3 | task 233 | prompt eval time =     927.87 ms /   530 tokens (    1.75 ms per token,   571.20 tokens per second)
+47.27.140.407 I slot print_timing: id  3 | task 233 |        eval time =     712.82 ms /    26 tokens (   28.51 ms per token,    35.07 tokens per second)
+47.27.140.408 I slot print_timing: id  3 | task 233 |       total time =    1640.69 ms /   556 tokens
+47.27.140.408 I slot print_timing: id  3 | task 233 |    graphs reused =        160
+47.27.140.412 I slot print_timing: id  3 | task 233 | draft acceptance = 0.59259 (   16 accepted /    27 generated), mean len =  2.78
+47.27.140.447 I slot      release: id  3 | task 233 | stop processing: n_tokens = 1662, truncated = 0
+65.59.192.203 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\0f8eac972558478d9b79e7903bcace6b.jpg'
+65.59.195.475 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\0f8eac972558478d9b79e7903bcace6b.wav'
+65.59.212.068 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.187 (> 0.100 thold), f_keep = 0.068
+65.59.212.263 W srv         alloc:  - making room for prompt cache entry, removing oldest entry (size = 6440.563 MiB)
+65.59.762.944 I slot launch_slot_: id  3 | task 249 | processing task, is_child = 0
+66.01.576.256 I slot print_timing: id  3 | task 249 | prompt eval time =     742.28 ms /   497 tokens (    1.49 ms per token,   669.56 tokens per second)
+66.01.576.261 I slot print_timing: id  3 | task 249 |        eval time =    1070.90 ms /    44 tokens (   24.90 ms per token,    40.15 tokens per second)
+66.01.576.262 I slot print_timing: id  3 | task 249 |       total time =    1813.18 ms /   541 tokens
+66.01.576.263 I slot print_timing: id  3 | task 249 |    graphs reused =        174
+66.01.576.266 I slot print_timing: id  3 | task 249 | draft acceptance = 0.64444 (   29 accepted /    45 generated), mean len =  2.93
+66.01.576.304 I slot      release: id  3 | task 249 | stop processing: n_tokens = 649, truncated = 0
+66.17.924.906 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\256a0d27ec2a43e98cf124daa58c93ca.jpg'
+66.17.929.944 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\256a0d27ec2a43e98cf124daa58c93ca.wav'
+66.17.946.228 I slot get_availabl: id  3 | task -1 | selected slot by LCP similarity, f_sim_best = 0.187 (> 0.100 thold), f_keep = 0.174
+66.18.006.483 I slot launch_slot_: id  3 | task 270 | processing task, is_child = 0
+66.20.296.260 I slot print_timing: id  3 | task 270 | prompt eval time =     693.39 ms /   497 tokens (    1.40 ms per token,   716.77 tokens per second)
+66.20.296.265 I slot print_timing: id  3 | task 270 |        eval time =    1596.29 ms /    55 tokens (   29.56 ms per token,    33.83 tokens per second)
+66.20.296.266 I slot print_timing: id  3 | task 270 |       total time =    2289.68 ms /   552 tokens
+66.20.296.267 I slot print_timing: id  3 | task 270 |    graphs reused =        197
+66.20.296.270 I slot print_timing: id  3 | task 270 | draft acceptance = 0.41667 (   30 accepted /    72 generated), mean len =  2.25
+66.20.296.302 I slot      release: id  3 | task 270 | stop processing: n_tokens = 659, truncated = 0
+73.09.517.259 I slot get_availabl: id  2 | task -1 | selected slot by LRU, t_last = -1
+73.09.517.973 I slot launch_slot_: id  2 | task 300 | processing task, is_child = 0
+73.13.328.927 I slot print_timing: id  2 | task 300 | n_gen =    162, tg =  53.06 t/s, tg_3s =  53.39 t/s
+73.16.347.900 I slot print_timing: id  2 | task 300 | n_gen =    407, tg =  67.07 t/s, tg_3s =  81.15 t/s
+73.18.211.580 I slot print_timing: id  2 | task 300 | prompt eval time =     687.94 ms /   610 tokens (    1.13 ms per token,   886.70 tokens per second)
+73.18.211.585 I slot print_timing: id  2 | task 300 |        eval time =    7916.90 ms /   640 tokens (   12.39 ms per token,    80.71 tokens per second)
+73.18.211.586 I slot print_timing: id  2 | task 300 |       total time =    8604.84 ms /  1250 tokens
+73.18.211.586 I slot print_timing: id  2 | task 300 |    graphs reused =        407
+73.18.211.590 I slot print_timing: id  2 | task 300 | draft acceptance = 0.66667 (  426 accepted /   639 generated), mean len =  3.00
+73.18.211.783 I slot      release: id  2 | task 300 | stop processing: n_tokens = 1249, truncated = 0
+75.35.322.389 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\68dd3d5ad2d3430f9265e1856caf53f5.jpg'
+75.35.326.819 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\68dd3d5ad2d3430f9265e1856caf53f5.wav'
+75.35.343.045 I slot get_availabl: id  1 | task -1 | selected slot by LRU, t_last = -1
+75.35.343.119 I slot launch_slot_: id  1 | task 519 | processing task, is_child = 0
+75.36.406.215 I slot print_timing: id  1 | task 519 | prompt eval time =     579.38 ms /   605 tokens (    0.96 ms per token,  1044.21 tokens per second)
+75.36.406.220 I slot print_timing: id  1 | task 519 |        eval time =     399.78 ms /    52 tokens (    7.84 ms per token,   127.57 tokens per second)
+75.36.406.221 I slot print_timing: id  1 | task 519 |       total time =     979.17 ms /   657 tokens
+75.36.406.221 I slot print_timing: id  1 | task 519 |    graphs reused =        423
+75.36.406.225 I slot print_timing: id  1 | task 519 | draft acceptance = 0.68627 (   35 accepted /    51 generated), mean len =  3.06
+75.36.406.257 I slot      release: id  1 | task 519 | stop processing: n_tokens = 657, truncated = 0
+78.08.775.089 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\66500fccb9ca416bbc1b1c872b0ea61e.jpg'
+78.08.779.255 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\66500fccb9ca416bbc1b1c872b0ea61e.wav'
+78.08.796.144 I slot get_availabl: id  1 | task -1 | selected slot by LCP similarity, f_sim_best = 0.187 (> 0.100 thold), f_keep = 0.172
+78.08.855.883 I slot launch_slot_: id  1 | task 543 | processing task, is_child = 0
+78.09.670.448 I slot print_timing: id  1 | task 543 | prompt eval time =     486.79 ms /   497 tokens (    0.98 ms per token,  1020.97 tokens per second)
+78.09.670.455 I slot print_timing: id  1 | task 543 |        eval time =     327.67 ms /    37 tokens (    9.10 ms per token,   109.87 tokens per second)
+78.09.670.457 I slot print_timing: id  1 | task 543 |       total time =     814.46 ms /   534 tokens
+78.09.670.458 I slot print_timing: id  1 | task 543 |    graphs reused =        436
+78.09.670.463 I slot print_timing: id  1 | task 543 | draft acceptance = 0.52381 (   22 accepted /    42 generated), mean len =  2.57
+78.09.670.514 I slot      release: id  1 | task 543 | stop processing: n_tokens = 641, truncated = 0
+80.28.754.434 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\dd44a3f730c3452887f6cbd2b9fdae2c.jpg'
+80.28.758.356 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\media\dd44a3f730c3452887f6cbd2b9fdae2c.wav'
+80.28.779.227 I slot get_availabl: id  1 | task -1 | selected slot by LCP similarity, f_sim_best = 0.187 (> 0.100 thold), f_keep = 0.176
+80.28.845.168 I slot launch_slot_: id  1 | task 563 | processing task, is_child = 0
+80.31.330.472 I slot print_timing: id  1 | task 563 | prompt eval time =    1137.28 ms /   497 tokens (    2.29 ms per token,   437.01 tokens per second)
+80.31.330.478 I slot print_timing: id  1 | task 563 |        eval time =    1347.91 ms /    38 tokens (   36.43 ms per token,    27.45 tokens per second)
+80.31.330.480 I slot print_timing: id  1 | task 563 |       total time =    2485.19 ms /   535 tokens
+80.31.330.480 I slot print_timing: id  1 | task 563 |    graphs reused =        449
+80.31.330.484 I slot print_timing: id  1 | task 563 | draft acceptance = 0.54762 (   23 accepted /    42 generated), mean len =  2.64
+80.31.330.518 I slot      release: id  1 | task 563 | stop processing: n_tokens = 642, truncated = 0

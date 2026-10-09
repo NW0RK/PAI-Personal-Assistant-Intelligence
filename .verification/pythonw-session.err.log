@@ -1,0 +1,6 @@
+test_desktop_start_pause_resume_and_owned_cleanup (test_desktop_model.ModelTests.test_desktop_start_pause_resume_and_owned_cleanup) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 8.661s
+
+OK
