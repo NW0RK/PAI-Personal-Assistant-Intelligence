@@ -113,7 +113,7 @@ def root_factory():
             panel = next(w for w in root.winfo_children() if isinstance(w, overlay.tk.Toplevel))
             frame = next(w for w in panel.winfo_children() if isinstance(w, overlay.tk.Frame))
             buttons = frame.winfo_children()
-            assert [w.cget('text') for w in buttons] == ['Pause', 'Cancel reply', 'Quit']
+            assert [w.cget('text') for w in buttons] == ['Pause listening', 'Stop reply', 'Quit']
             assert str(buttons[1].cget('state')) == 'normal'
             for button in buttons:
                 button.invoke()

@@ -49,7 +49,7 @@ FRAME_SAMPLES = SAMPLE_RATE * FRAME_MS // 1000
 FRAME_BYTES = FRAME_SAMPLES * 2
 
 SYSTEM_PROMPT = """You are a helpful live assistant with vision and hearing.
-- You hear the user's voice (provided as audio). Screen images are optional.
+- The user may send typed text or voice audio. Screen images are optional.
 - Describe the screen only when an image is provided. If none is provided, ask the user to enable screen sharing.
 - Respond conversationally and concisely, like a voice assistant.
 - Keep responses short (1-3 sentences) unless the user asks for detail.
@@ -305,16 +305,19 @@ class TurnContext:
     received_delta: bool = False
     voice_failed: bool = False
     timings: list = field(default_factory=list)
+    resume_state: str = "Listening"
 
 
 def inference_worker(connection, turn_id, messages, pcm, paths, server_url):
     """Own blocking screen/network work; the controller can terminate this process."""
     try:
-        connection.send((turn_id, "stage", "Saving your recording"))
-        write_wav(paths[0], pcm)
-        if len(paths) > 1:
+        if pcm is not None:
+            connection.send((turn_id, "stage", "Saving your recording"))
+            write_wav(paths[0], pcm)
+        image_path = next((path for path in paths if path.endswith('.jpg')), None)
+        if image_path:
             connection.send((turn_id, "stage", "Capturing the screen"))
-            capture_screenshot(paths[1])
+            capture_screenshot(image_path)
         connection.send((turn_id, "stage", "Waiting for the local model"))
         def partial(text):
             connection.send((turn_id, "partial", text))
@@ -514,6 +517,9 @@ class LiveController:
     def listen(self):
         if self.quitting or self.state == "Paused":
             return
+        if getattr(self.args, "text_only", False):
+            self.status("Paused", "Text session ready. Listening is paused.")
+            return
         if self.args.test:
             self.status("Listening")
             return
@@ -521,31 +527,44 @@ class LiveController:
         try:
             notice = self.notice
             self.status("Starting", "Starting microphone")
+            if not self.args.device:
+                raise ValueError("Select a microphone in Settings to enable listening.")
             self.mic.start()
             self.status("Listening", notice)
         except Exception as exc:
             self.mic.stop()
             print(f"[Microphone error] {exc}", flush=True)
-            self.status("Error", "Microphone unavailable. Check the device, then press Resume.")
+            self.emit("failure", kind="microphone", code="microphone_unavailable", detail=str(exc), turn_id=None)
+            self.status("Error", "Microphone unavailable. Open microphone settings or send a typed message.")
 
-    def start_turn(self, pcm):
-        if self.active or self.state in ("Paused", "Error") or self.quitting:
+    def start_text_turn(self, text, request_id=None):
+        if not isinstance(text, str) or not text.strip() or self.active or self.quitting:
+            self.emit("failure", kind="input", code="input_unavailable",
+                      detail="Finish or stop the current reply before sending a non-empty message.", request_id=request_id)
             return
+        self.start_turn(None, text=text, request_id=request_id)
+
+    def start_turn(self, pcm, *, text=None, request_id=None):
+        if self.active or (text is None and self.state in ("Paused", "Error")) or self.quitting:
+            return
+        resume_state = "Paused" if self.state in ("Paused", "Error") else "Listening"
         detected_at = self.clock()
         self.mic.stop()
         turn_id = uuid.uuid4().hex
-        paths = tuple(os.path.join(MEDIA_DIR, turn_id + suffix)
-                      for suffix in ((".wav", ".jpg") if self.screen_sharing else (".wav",)))
+        suffixes = (() if pcm is None else (".wav",)) + ((".jpg",) if self.screen_sharing else ())
+        paths = tuple(os.path.join(MEDIA_DIR, turn_id + suffix) for suffix in suffixes)
         self.owned.update(paths)
         user = {"role": "user", "content": [
-            {"type": "text", "text": ""},
+            {"type": "text", "text": text or ""},
         ]}
         if self.screen_sharing:
-            user["content"].append({"type": "image_url", "image_url": {"url": "file://" + os.path.basename(paths[1])}})
-        user["content"].append({"type": "input_audio", "input_audio": {"url": "file://" + os.path.basename(paths[0])}})
-        self.active = TurnContext(turn_id, paths, user)
+            user["content"].append({"type": "image_url", "image_url": {"url": "file://" + os.path.basename(paths[-1])}})
+        if pcm is not None:
+            user["content"].append({"type": "input_audio", "input_audio": {"url": "file://" + os.path.basename(paths[0])}})
+        self.active = TurnContext(turn_id, paths, user, resume_state=resume_state)
         self.notice = ""
-        self.emit("turn_started", turn_id=turn_id, screen_sharing=self.screen_sharing)
+        self.emit("turn_started", turn_id=turn_id, screen_sharing=self.screen_sharing,
+                  input_kind="text" if text is not None else "voice", input_text=text or "", request_id=request_id)
         self.emit("microphone", level=0, speech=False)
         self.mark("utterance_detected", timestamp=detected_at)
         if not self.args.no_tts:
@@ -623,7 +642,7 @@ class LiveController:
         self.notice = ("Voice output failed; the answer is in captions. Check Piper and audio output."
                        if voice else "Reply failed. Check the local server and try speaking again. " + detail[:180])
         self.emit("failure", turn_id=self.active.id if self.active else None,
-                  kind="voice" if voice else "server", detail=self.notice)
+                  kind="voice" if voice else "server", code="voice_unavailable" if voice else "reply_failed", detail=self.notice)
         if voice:
             if self.active:
                 self.active.voice_failed = True
@@ -659,7 +678,10 @@ class LiveController:
             if not turn.committed:
                 self.remove_media(turn.paths)
         if resume:
-            self.listen()
+            if turn and turn.resume_state == "Paused":
+                self.status("Paused", self.notice)
+            else:
+                self.listen()
 
     def control(self, action):
         if self.quitting:
@@ -668,11 +690,17 @@ class LiveController:
             if action.get("action") == "screen_sharing" and isinstance(action.get("enabled"), bool):
                 self.screen_sharing = action["enabled"]
                 self.emit("screen_sharing", enabled=self.screen_sharing)
+            elif action.get("action") == "send_text":
+                self.start_text_turn(action.get("text"), action.get("request_id"))
+            elif action.get("action") == "caption_position":
+                self.args.caption_position = action.get("position", "Top left")
+                if self.overlay:
+                    self.overlay.position(self.args.caption_position)
             elif action.get("action") == "configure":
                 self.configure(action)
             return
         if action == "clear":
-            paused = self.state == "Paused"
+            paused = self.state == "Paused" or bool(self.active and self.active.resume_state == "Paused")
             self.mic.stop()
             self.finish_turn(resume=False)
             self.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
@@ -694,6 +722,7 @@ class LiveController:
             self.finish_turn(resume=False)
             self.status("Paused")
         elif action == "resume" and self.state in ("Paused", "Error"):
+            self.args.text_only = False
             self.status("Starting", "")
             self.listen()
         elif action == "cancel" and self.active:
@@ -704,12 +733,14 @@ class LiveController:
         try:
             preferences = validate_preferences(settings.get("preferences", {}))
         except ValueError as exc:
-            self.emit("failure", kind="settings", detail=str(exc), turn_id=None)
+            self.emit("failure", kind="settings", code="settings_invalid", detail=str(exc), turn_id=None)
             return
-        paused = self.state == "Paused"
+        paused = self.state == "Paused" or bool(self.active and self.active.resume_state == "Paused")
         self.mic.stop()
         self.finish_turn(resume=False)
         self.args.device = preferences["device"]
+        if not self.args.device:
+            self.args.text_only = True
         self.mic.device = self.args.device
         self.args.silence = preferences["silence"]
         self.args.threshold = preferences["threshold"]
@@ -720,11 +751,12 @@ class LiveController:
             self.overlay = None
         elif preferences["captions"] and not self.overlay:
             try:
-                self.overlay = SpeechOverlay(captions_only=getattr(self.args, "captions_only", False))
+                self.overlay = SpeechOverlay(captions_only=getattr(self.args, "captions_only", False),
+                                             caption_position=getattr(self.args, "caption_position", "Top left"))
             except Exception as exc:
-                self.emit("failure", kind="captions", detail=f"Floating captions unavailable: {exc}", turn_id=None)
+                self.emit("failure", kind="captions", code="captions_unavailable", detail=f"Floating captions unavailable: {exc}", turn_id=None)
         self.emit("configured", preferences=preferences, voice_available=not self.args.no_tts,
-                  warning=self.voice_warning)
+                  request_id=settings.get('request_id'), warning=self.voice_warning)
         self.status("Paused" if paused else "Starting", "")
         if not paused:
             self.listen()
@@ -752,7 +784,8 @@ class LiveController:
             except Exception as exc:
                 self.mic.stop()
                 print(f"[Microphone error] {exc}", flush=True)
-                self.status("Error", "Microphone stopped. Check the device, then press Resume.")
+                self.emit("failure", kind="microphone", code="microphone_unavailable", detail=str(exc))
+                self.status("Error", "Microphone stopped. Open microphone settings or send a typed message.")
 
     def close(self):
         self.control("quit")
@@ -846,6 +879,8 @@ def main():
     parser.add_argument("--no-overlay", action="store_true", help="Disable desktop captions and controls")
     parser.add_argument("--captions-only", action="store_true", help="Show floating captions without a second control panel")
     parser.add_argument("--screen-sharing", action="store_true", help="Attach screen images to voice turns (off by default)")
+    parser.add_argument("--text-only", action="store_true", help="Start with listening paused; no microphone required")
+    parser.add_argument("--caption-position", choices=("Top left", "Top right", "Bottom left", "Bottom right"), default="Top left")
     parser.add_argument("--device", default=DEFAULT_DEVICE, help="Microphone dshow name")
     parser.add_argument("--list-devices", action="store_true", help="List available cameras and microphones")
     parser.add_argument("--silence", type=float, default=1.0, help="Seconds of silence to end utterance")
@@ -868,7 +903,7 @@ def main():
     overlay = None
     if not args.no_overlay:
         try:
-            overlay = SpeechOverlay(captions_only=args.captions_only)
+            overlay = SpeechOverlay(captions_only=args.captions_only, caption_position=args.caption_position)
         except Exception as exc:
             print(f"[Overlay warning] {exc}", flush=True)
     controller = LiveController(args, overlay)
@@ -876,7 +911,7 @@ def main():
     try:
         controller.status("Starting")
         # Generation reports server failures without blocking the controller on a health request.
-        if not args.test and not shutil.which(FFMPEG):
+        if not args.test and not args.text_only and not shutil.which(FFMPEG):
             controller.status("Error", "FFmpeg is missing. Install it on PATH, then press Resume.")
         else:
             controller.status("Starting")

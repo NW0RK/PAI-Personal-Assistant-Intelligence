@@ -9,16 +9,20 @@ import subprocess
 import sys
 import threading
 import tkinter as tk
+from tkinter import ttk
+from ui_theme import COLORS, install_theme
+from desktop_helpers import caption_geometry, work_areas
+from app_settings import POSITIONS
 
 
 class SpeechOverlay:
     """Send captions to a separate process whose main thread owns Tk."""
 
-    def __init__(self, captions_only=False):
+    def __init__(self, captions_only=False, caption_position="Top left"):
         self.captions_only = captions_only
         self.closed = False
         self.process = subprocess.Popen(
-            [sys.executable, os.path.abspath(__file__)] + (["--captions-only"] if captions_only else []),
+            [sys.executable, os.path.abspath(__file__)] + (["--captions-only"] if captions_only else []) + ["--position", caption_position],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             text=True, encoding="utf-8",
             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
@@ -56,6 +60,9 @@ class SpeechOverlay:
     def show(self, text, duration=None):
         self._send({"action": "show", "text": text, "duration": duration})
 
+    def position(self, position):
+        self._send({"action": "position", "position": position})
+
     def hide(self):
         self._send({"action": "hide"})
 
@@ -91,17 +98,19 @@ class SpeechOverlay:
             pass
 
 
-def run_overlay(demo=False, captions_only=False):
+def run_overlay(demo=False, captions_only=False, position="Top left"):
+    caption_position = position
     root = tk.Tk()
     root.withdraw()
+    install_theme(root)
     root.title("Gemma Live captions")
     root.overrideredirect(True)
-    root.configure(bg="#18202b")
+    root.configure(bg=COLORS["panel"])
     root.attributes("-topmost", True)
     root.attributes("-alpha", 0.82)
     width = min(640, max(240, root.winfo_screenwidth() - 48))
     caption = tk.Label(root, text="", font=("Segoe UI", 18),
-                       fg="#ffffff", bg="#18202b", justify="left",
+                       fg=COLORS["text"], bg=COLORS["panel"], justify="left",
                        anchor="nw", wraplength=width - 40, padx=20, pady=16)
     caption.pack(fill="both", expand=True)
     commands = queue.Queue()
@@ -110,27 +119,27 @@ def run_overlay(demo=False, captions_only=False):
     if captions_only:
         panel.withdraw()
     panel.title("Gemma Live")
-    panel.configure(bg="#18202b", padx=16, pady=12)
+    panel.configure(bg=COLORS["panel"], padx=16, pady=12)
     panel.attributes("-topmost", True)
-    panel.geometry("420x165+24+300")
+    panel.geometry("520x185+24+300")
     state_text = tk.StringVar(value="Starting")
     detail_text = tk.StringVar(value="Local voice and screen assistant")
     tk.Label(panel, textvariable=state_text, font=("Segoe UI", 16, "bold"),
-             bg="#18202b", fg="white").pack(anchor="w")
+             bg=COLORS["panel"], fg=COLORS["accent"]).pack(anchor="w")
     tk.Label(panel, textvariable=detail_text, font=("Segoe UI", 10), wraplength=380,
-             justify="left", bg="#18202b", fg="#cbd5e1").pack(anchor="w", pady=(4, 10))
-    buttons = tk.Frame(panel, bg="#18202b")
+             justify="left", bg=COLORS["panel"], fg=COLORS["muted"]).pack(anchor="w", pady=(4, 10))
+    buttons = tk.Frame(panel, bg=COLORS["panel"])
     buttons.pack(anchor="w")
 
     def control(action):
         print(json.dumps({"event": "control", "action": action}), flush=True)
 
-    pause = tk.Button(buttons, text="Pause", width=10,
+    pause = ttk.Button(buttons, text="Pause listening", style="Primary.TButton",
                       command=lambda: control("resume" if state_text.get() in ("Paused", "Error") else "pause"))
     pause.pack(side="left", padx=(0, 8))
-    cancel = tk.Button(buttons, text="Cancel reply", command=lambda: control("cancel"), state="disabled")
+    cancel = ttk.Button(buttons, text="Stop reply", command=lambda: control("cancel"), state="disabled")
     cancel.pack(side="left", padx=(0, 8))
-    tk.Button(buttons, text="Quit", command=lambda: control("quit")).pack(side="left")
+    ttk.Button(buttons, text="Quit", style="Quiet.TButton", command=lambda: control("quit")).pack(side="left")
     panel.protocol("WM_DELETE_WINDOW", lambda: control("quit"))
     panel.update_idletasks()
     if os.name == "nt" and not demo:
@@ -155,7 +164,8 @@ def run_overlay(demo=False, captions_only=False):
         caption.configure(text=text)
         root.update_idletasks()
         height = caption.winfo_reqheight()
-        root.geometry(f"{width}x{height}+24+24")
+        x, y, w, h = caption_geometry(caption_position, width, height, work_areas(root)[0])
+        root.geometry(f"{w}x{h}{x:+d}{y:+d}")
         if os.name == "nt":
             # Keep captions out of the taskbar and let clicks reach the app below.
             user32 = ctypes.windll.user32
@@ -183,6 +193,7 @@ def run_overlay(demo=False, captions_only=False):
         commands.put({"action": "close"})
 
     def poll():
+        nonlocal caption_position
         try:
             while True:
                 command = commands.get_nowait()
@@ -190,7 +201,12 @@ def run_overlay(demo=False, captions_only=False):
                 if action == "close":
                     root.destroy()
                     return
-                if action == "hide":
+                if action == "position" and command.get("position") in POSITIONS:
+                    caption_position = command["position"]
+                    if root.winfo_ismapped():
+                        x, y, w, h = caption_geometry(caption_position, width, root.winfo_height(), work_areas(root)[0])
+                        root.geometry(f"{w}x{h}{x:+d}{y:+d}")
+                elif action == "hide":
                     hide()
                 elif action == "show":
                     show(command.get("text", ""), command.get("duration"))
@@ -200,7 +216,7 @@ def run_overlay(demo=False, captions_only=False):
                     state = command.get("state", "Starting")
                     state_text.set(state)
                     detail_text.set(command.get("detail", ""))
-                    pause.configure(text="Resume" if state in ("Paused", "Error") else "Pause")
+                    pause.configure(text="Resume listening" if state in ("Paused", "Error") else "Pause listening")
                     cancel.configure(state="normal" if state in ("Thinking", "Preparing voice", "Speaking") else "disabled")
         except queue.Empty:
             pass
@@ -221,5 +237,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Gemma desktop captions")
     parser.add_argument("--demo", action="store_true", help="Preview captions for 12 seconds")
     parser.add_argument("--captions-only", action="store_true")
+    parser.add_argument("--position", choices=POSITIONS, default="Top left")
     args = parser.parse_args()
-    run_overlay(args.demo, args.captions_only)
+    run_overlay(args.demo, args.captions_only, args.position)

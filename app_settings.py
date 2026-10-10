@@ -50,11 +50,59 @@ def save_preferences(values, path=None):
     values = validate_preferences(values)
     path = Path(path or settings_path())
     path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        old = json.loads(path.read_text(encoding='utf-8'))
+        appearance = old.get('appearance', {}) if isinstance(old, dict) else {}
+    except (OSError, ValueError):
+        appearance = {}
     # Atomic replacement avoids losing good settings on an interrupted write.
     fd, temporary = tempfile.mkstemp(prefix="settings-", suffix=".tmp", dir=path.parent)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as output:
-            json.dump(dict(version=1, preferences=values), output, indent=2)
+            json.dump(dict(version=1, preferences=values, appearance=appearance), output, indent=2)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+POSITIONS = ('Top left', 'Top right', 'Bottom left', 'Bottom right')
+UI_DEFAULTS = dict(geometry=None, maximized=False, caption_position='Top left')
+
+
+def validate_appearance(values):
+    result = dict(UI_DEFAULTS)
+    if not isinstance(values, dict):
+        return result
+    rectangle = values.get('geometry')
+    if (isinstance(rectangle, list) and len(rectangle) == 4
+            and all(type(n) is int for n in rectangle) and rectangle[2] >= 100 and rectangle[3] >= 100):
+        result['geometry'] = rectangle
+    if type(values.get('maximized')) is bool:
+        result['maximized'] = values['maximized']
+    if values.get('caption_position') in POSITIONS:
+        result['caption_position'] = values['caption_position']
+    return result
+
+
+def load_appearance(path=None):
+    try:
+        payload = json.loads(Path(path or settings_path()).read_text(encoding='utf-8'))
+        return validate_appearance(payload.get('appearance', {}))
+    except (OSError, ValueError, AttributeError):
+        return dict(UI_DEFAULTS)
+
+
+def save_appearance(values, path=None):
+    """Called by the same worker as preference writes; preserve applied audio settings."""
+    path = Path(path or settings_path())
+    preferences, _ = load_preferences(path)
+    appearance = validate_appearance(values)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix='settings-', suffix='.tmp', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as output:
+            json.dump(dict(version=1, preferences=preferences, appearance=appearance), output, indent=2)
         os.replace(temporary, path)
     finally:
         if os.path.exists(temporary):
@@ -77,9 +125,9 @@ def discover_microphones():
                                 capture_output=True, text=True, encoding="utf-8", errors="replace",
                                 timeout=8, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     except FileNotFoundError:
-        return [], "FFmpeg is missing. Install it on PATH, then refresh microphones."
+        return [], "FFmpeg is missing. Install it on PATH, then rescan microphones."
     except (OSError, subprocess.TimeoutExpired) as exc:
-        return [], f"Could not list microphones. Refresh to retry. {exc}"
+        return [], f"Could not list microphones. Click Rescan microphones to retry. {exc}"
     # FFmpeg intentionally returns a nonzero exit code for device listing.
     devices = parse_microphones(result.stderr + "\n" + result.stdout)
-    return devices, "" if devices else "No microphones found. Connect a microphone, then refresh."
+    return devices, "" if devices else "No microphones found. Connect a microphone, then click Rescan microphones."

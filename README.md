@@ -1,47 +1,88 @@
 # Gemma Live
 
 Double-click **Start Gemma.cmd** to open the desktop app without keeping a terminal
-open. On the first launch, choose a microphone and click **Start / Retry**. Later
+open. On the first launch, open **Settings**, choose a microphone, click **Apply changes**,
+then **Start assistant**. **Start text session** works without a microphone. Later
 launches reuse your selected microphone and start automatically. The app checks
 dependencies and model files, starts the local server if needed, and waits for it
 to be ready before listening.
 
-The window includes **Pause / Resume**, **Cancel reply**, **Clear conversation**,
+The window includes **Pause listening / Resume listening**, **Stop reply**, **Clear conversation**,
 and **Quit**. It shows streamed replies, Copy reply buttons, server health, and a
 microphone level meter. The microphone stops while Gemma thinks or speaks. Interrupted
 answers are marked incomplete. There is no speech transcript; your input appears
-as **Voice message**. Shortcuts: **Ctrl+Enter** starts/retries, **Ctrl+Space**
+as **Voice message**. Typed messages show the text you sent. Shortcuts: **Ctrl+Enter** starts/retries, **Ctrl+Space**
 pauses/resumes, and **Esc** cancels a reply. Closing the window quits the app.
 
-**Screen sharing starts off every time you open the app.** Enable **Share primary
-screen with Gemma** to include a screenshot with subsequent voice messages. Changing
+**Screen sharing starts off every time you open the app.** Enable **Share screen** to include a screenshot with subsequent voice or typed messages. Changing
 the toggle does not alter a turn already in progress. Earlier screenshots remain in
 the conversation context until its ten-turn limit expires or you click **Clear
 conversation**. Clearing also cancels the current reply and removes retained session
 media. Your paused/listening state is preserved.
 
-Choose a microphone, speech output, or floating captions and click **Apply setup**.
-This cancels any active reply while applying the new configuration. **Refresh**
+Open **Settings** to choose a microphone, speech output, or floating captions, then click **Apply changes**.
+The Apply changes button stays visible while you scroll through settings. **Unsaved changes**
+marks drafts, and **Discard changes** restores applied values. Navigating back keeps drafts;
+Pause, Resume, Retry, and Reconnect use applied settings without saving unfinished edits.
+Changes become applied after acknowledgment; save failures indicate session-only changes.
+Applying microphone and reply preferences stops any active reply.
+Server edits have their own Apply and Discard controls and remain session-only. **Rescan microphones**
 rescans microphones; a missing saved device requires selecting another one. Speech
-sensitivity and silence duration are under **Advanced settings and diagnostics**.
+sensitivity and silence duration are in the expandable **Speech detection** section in Settings.
 Preferences are saved in `%LOCALAPPDATA%\GemmaLive\settings.json`; command-line
 options override saved preferences. Invalid settings restore defaults with a warning.
 
-Advanced settings also show dependency checks, free RAM, disk space, and recent
-activity. Server paths, port, context size, GPU layers, and the draft model can be
+The expandable **Resources and diagnostics** section also shows dependency checks, free RAM, disk space, and recent
+activity. Under **Server configuration**, server paths, port, context size, GPU layers, and the draft model can be
 changed before starting services. These advanced server changes apply to the current
 session; use command-line options for a repeatable custom launch. To change an
 already loaded server, quit and relaunch it with those options. Server diagnostics
 are in `launcher-server.log`. Existing servers are reused and left running when you
 quit; servers started by this app are stopped. No services are installed and no
 downloads are performed automatically.
-If the server becomes unavailable during use, **Start / Retry** reconnects services
+If the server becomes unavailable during use, **Reconnect** reconnects services
 and resets conversation context. A busy external server is left running.
+
+The main window keeps conversation, microphone activity, session controls, and screen sharing visible.
+**Settings** replaces the conversation area; **Back to conversation** returns to replies.
+The dark slate and teal interface uses static, cached button images with no animation loop.
+
+Type in the composer and click **Send**, or press **Enter**. **Shift+Enter** adds a line.
+Typed requests use the same speech-output and screen-sharing toggles as voice requests.
+They work while listening is paused, including after a microphone failure, and leave
+listening paused afterward. Sending is unavailable while starting, disconnected, applying
+settings, testing a microphone, or replying; unsent text remains in the composer.
+Only one message is handled at a time; messages are not queued automatically.
+
+**Test microphone** measures three seconds of background noise, then five seconds of
+speech. It temporarily pauses listening and restores its previous state when finished or
+cancelled. The test does not start the model, send audio to it, or save recordings.
+Its sensitivity recommendation enters the settings draft. Choose a **Quick** (0.5 s),
+**Natural** (1 s), or **Unhurried** (1.5 s) silence preset, then apply changes.
+Tests are unavailable during a reply or service startup. Poor samples show guidance.
+
+While reading older messages, **Jump to latest** returns to the bottom. Streamed updates
+change only the active reply, preserving completed Copy buttons and reading position.
+**Export** saves the displayed conversation as Markdown, including typed messages,
+voice-message placeholders, screen-sharing markers, and incomplete-reply markers.
+Exports contain no audio, screenshots, or hidden model context. Nothing is exported automatically.
+
+Errors offer relevant recovery controls such as opening microphone or server settings,
+rescanning microphones, reconnecting, or opening diagnostics. Opening Settings does not
+apply drafts or restart services.
+
+Window size, position, maximized state, and the **Caption position** preset are saved
+alongside preferences. Caption presets use the primary display's available area and keep
+captions click-through. Restored windows are clamped to connected displays. Old settings
+files remain compatible, and invalid appearance fields do not reset audio preferences.
+For a preview that uses no model or microphone, run
+`python test_desktop_visuals.py --preview 1` (or add `--settings`).
 
 ## Requirements
 
-Windows, Python with Pillow and Tk, FFmpeg/ffplay on PATH, llama-server and the Gemma
-model files. Piper and its voice model enable speech; missing voice dependencies
+Windows, Python with Pillow and Tk, llama-server and the Gemma
+model files. FFmpeg is required for microphone capture, and ffplay for spoken playback.
+Piper and its voice model enable speech; missing voice dependencies
 fall back to captions. The supplied defaults match this machine's existing setup.
 Install Python dependencies with `python -m pip install -r requirements.txt` if needed.
 
@@ -52,6 +93,7 @@ Install Python dependencies with `python -m pip install -r requirements.txt` if 
 - `python launch_gemma.py --terminal`: use the original terminal dashboard. Shortcuts:
   **Enter** starts/retries, **P** pauses/resumes, **C** cancels, and **Q** quits.
   The terminal must remain open while using this mode.
+- `python launch_gemma.py --text-only`: start services with listening paused; no microphone required.
 - `python launch_gemma.py --port 9090`: use another port for both services.
 - `python launch_gemma.py --device "Microphone name"`: select a microphone.
 - `python launch_gemma.py --no-overlay`: disable floating captions.
@@ -76,12 +118,12 @@ equivalent of disabling Keep Model in Memory). Windows can still cache model fil
 in RAM during loading; this setting does not guarantee zero RAM usage. Existing
 servers must be restarted to apply the setting.
 
-The microphone stops during generation and playback. Cancel returns to listening;
+The microphone stops during generation and playback. Stop reply returns to the previous listening or paused state;
 Pause cancels and stays paused. Partial captions are marked incomplete on interruption.
 Only completed replies enter conversation history. Current-session media is removed
 when its turn expires or the app exits normally; forcibly closing the terminal can
 leave files behind. Model conversation history retains at most ten completed turns;
-the desktop view retains up to 100 voice-message entries for reading and copying.
+the desktop view retains up to 100 voice and typed messages for reading and copying.
 The desktop conversation view is not saved between sessions.
 
 In streamed mode, one phrase can play while the next is synthesized. At most two
@@ -119,6 +161,8 @@ model settings and desktop scene stable when comparing model runs.
 Run checks with `python -m unittest discover -v`.
 Optional desktop window checks, without starting the model or microphone:
 `$env:GEMMA_DESKTOP_TESTS='1'; python -m unittest test_desktop_app.WindowTests -v`.
+Simulated interface checks, including 100%, 150%, and 200% scaling:
+`$env:GEMMA_DESKTOP_TESTS='1'; python -m unittest test_desktop_visuals test_pai_features -v`.
 Local model checks (start an owned server if needed and release it afterward):
 `$env:GEMMA_MODEL_TESTS='1'; python -m unittest test_desktop_model -v`.
 These resample the existing `media/test_speech.wav` recording and test voice-only

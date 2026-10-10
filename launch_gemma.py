@@ -157,7 +157,7 @@ class Supervisor:
                        'Playback': 'OK' if shutil.which('ffplay') else 'Unavailable (captions only)',
                        'Voice model': 'OK' if all((ROOT / 'voices' / (live.PIPER_MODEL + ext)).is_file()
                                                  for ext in ('.onnx', '.onnx.json')) else 'Unavailable (captions only)'}
-        return self.checks['FFmpeg'] == 'OK'
+        return getattr(self.args, 'text_only', False) or self.checks['FFmpeg'] == 'OK'
 
     def start(self):
         if self.quitting:
@@ -215,6 +215,9 @@ class Supervisor:
                    '--server-url', self.url, '--device', self.args.device,
                    '--speech-mode', self.args.speech_mode,
                    '--silence', str(self.args.silence), '--threshold', str(self.args.threshold)]
+        if getattr(self.args, 'text_only', False):
+            command.append('--text-only')
+        command += ['--caption-position', getattr(self.args, 'caption_position', 'Top left')]
         if getattr(self.args, 'desktop', False):
             command.append('--captions-only')
         if getattr(self.args, 'screen_sharing', False):
@@ -250,8 +253,10 @@ class Supervisor:
             try:
                 self.assistant.stdin.write((json.dumps(action) if isinstance(action, dict) else action) + '\n')
                 self.assistant.stdin.flush()
+                return True
             except (OSError, ValueError):
                 pass
+        return False
 
     def tick(self):
         while True:
@@ -362,7 +367,8 @@ def parse_args(argv=None):
     parser.add_argument('--port', type=int, default=8080)
     parser.add_argument('--ctx', type=int, default=32768)
     parser.add_argument('--gpu-layers', type=int, default=99)
-    parser.add_argument('--server', type=Path, default=ROOT.parent / 'llama-server.exe')
+    server_candidates = [ROOT / 'llama-server.exe', ROOT.parent / 'llama-server.exe', ROOT.parent.parent / 'llama-server.exe']
+    parser.add_argument('--server', type=Path, default=next((path for path in server_candidates if path.is_file()), server_candidates[1]))
     parser.add_argument('--model', type=Path, default=DEFAULT_MODELS / 'gemma-4-12B-it-QAT-Q4_0.gguf')
     parser.add_argument('--mmproj', type=Path, default=DEFAULT_MODELS / 'mmproj-gemma-4-12B-it-QAT-BF16.gguf')
     parser.add_argument('--mtp', type=Path, default=DEFAULT_MODELS / 'gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf')
@@ -373,6 +379,7 @@ def parse_args(argv=None):
     parser.add_argument('--no-tts', action='store_true')
     parser.add_argument('--tts', dest='no_tts', action='store_false')
     parser.add_argument('--piper-path')
+    parser.add_argument('--text-only', action='store_true', help='Start a text session without opening a microphone')
     parser.add_argument('--device', default='Microphone (fifine Microphone)')
     parser.add_argument('--silence', type=float, default=1.0)
     parser.add_argument('--threshold', type=float, default=0.01)

@@ -112,8 +112,12 @@ class WorkerTests(unittest.TestCase):
         values = dict(self.preferences, silence=.5, captions=False)
         self.worker.handle(dict(action='preferences', preferences=values))
         self.assertTrue(self.worker.args.screen_sharing)
+        self.assertFalse(self.worker.args.no_overlay)
+        self.assertEqual(self.worker.pending_preferences, values)
+        # Runtime settings become applied only after the assistant acknowledges them.
+        self.worker.commit_preferences(values)
         self.assertTrue(self.worker.args.no_overlay)
-        self.worker.supervisor.send.assert_called_with(dict(action='configure', preferences=values))
+        self.worker.supervisor.send.assert_called_with(dict(action='configure', preferences=values, request_id=self.worker.preferences_request))
         self.assertEqual(settings.load_preferences(self.args.settings_file)[0], values)
         restarted = desktop.SupervisorWorker(self.args, values)
         self.assertFalse(restarted.args.screen_sharing)
@@ -192,6 +196,8 @@ class WindowTests(unittest.TestCase):
                 self.assertEqual(app.device.get(), '')
                 self.assertIn('unavailable', app.message.get())
                 app.device.set('Available')
+                app.apply_button.invoke()
+                app.handle_event(dict(event='preferences_applied', preferences=app.pending_preferences, warning=''))
                 app.start_button.invoke()
                 self.assertEqual([a for a, _ in app.worker.commands][-2:], ['preferences', 'start'])
                 app.sharing.set(True)
@@ -205,14 +211,19 @@ class WindowTests(unittest.TestCase):
                 self.assertIn('Incomplete reply', app.chat.get('1.0', 'end'))
                 app.copy_buttons[0].invoke()
                 self.assertEqual(root.clipboard_get(), 'Some answer')
-                app.toggle_advanced()
+                # A missing saved microphone opens Settings immediately.
+                self.assertTrue(app.settings_open)
                 root.update()
                 self.assertTrue(app.advanced.winfo_ismapped())
                 app.toggle_advanced()
+                root.update()
+                self.assertTrue(app.chat_frame.winfo_ismapped())
                 app.close()
                 self.assertEqual(app.worker.commands[-1][0], 'quit')
             finally:
                 try:
+                    for timer in root.tk.splitlist(root.tk.call('after', 'info')):
+                        root.after_cancel(timer)
                     root.destroy()
                 except desktop.tk.TclError:
                     pass

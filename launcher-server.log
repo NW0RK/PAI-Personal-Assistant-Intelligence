@@ -367,3 +367,40 @@ Exception Code: 0xC0000005
 0.04.749.437 I srv  llama_server: model loaded
 0.04.749.441 I srv  llama_server: listening on http://127.0.0.1:8080
 0.04.749.442 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)
+0.00.013.904 I srv  llama_server: initializing ...
+0.00.013.910 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.014.134 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.025.437 I srv    load_model: loading model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-QAT-Q4_0.gguf'
+0.00.978.476 E llama_init_from_model: failed to initialize the context: Gemma4Assistant requires ctx_other to be set (this warning is normal during memory fitting)
+0.01.033.471 W operator(): failed to measure the memory of the extra model, fitting without it: failed to create llama_context from model
+0.01.362.399 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.362.619 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.384.235 W load: '</s>' is a normal token here, removing it from EOG list
+0.03.900.584 I cmn          init: llama threadpool init, n_threads = 8
+0.03.981.729 I common_speculative_init_result: loading draft model 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\gemma-4-12B-it-qat-assistant-MTP-Q8_0.gguf'
+0.04.309.967 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.310.099 W load: control-looking token:    106 '<turn|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.310.176 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.04.330.611 W load: '</s>' is a normal token here, removing it from EOG list
+0.04.503.368 W llama_kv_cache: layer   3: sharing with layer 47. k = 000001FFD4650000, v = 000001FFD6650000
+0.04.503.395 W llama_kv_cache: layer   0: sharing with layer 46. k = 0000020030250000, v = 0000020031450000
+0.04.503.396 W llama_kv_cache: layer   1: sharing with layer 46. k = 0000020030250000, v = 0000020031450000
+0.04.503.397 W llama_kv_cache: layer   2: sharing with layer 46. k = 0000020030250000, v = 0000020031450000
+0.04.513.244 W srv    load_model: cap image_max_tokens (original=1120) to 512 (n_ubatch = 512) because model needs non-causal attention on image
+0.04.513.250 W srv    load_model: increase n_ubatch (-ub) to increase vision token budget
+0.04.695.790 W init_audio: audio input is in experimental stage and may have reduced quality:
+    https://github.com/ggml-org/llama.cpp/discussions/13759
+0.04.695.799 I srv    load_model: loaded multimodal model, 'C:\Users\niko0\.lmstudio\models\lmstudio-community\gemma-4-12B-it-QAT-GGUF\mmproj-gemma-4-12B-it-QAT-BF16.gguf'
+0.04.724.330 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 32768, kv_unified = 'true'
+0.04.741.250 I srv  llama_server: model loaded
+0.04.741.256 I srv  llama_server: listening on http://127.0.0.1:8080
+0.04.741.256 W srv  llama_server: notice: server default port will be changed to :9931 in a future release (ref: https://github.com/ggml-org/llama.cpp/pull/26508)
+0.37.421.004 I srv  handle_media: loading image from local file 'C:\Users\niko0\Downloads\llama-b1340-windows-rocm-gfx110X-x64\gemma-live\PAI-Personal Assistant Intelligence\media\92bfc6e7602144648c5c52c5ea8130d4.wav'
+0.37.423.261 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.37.423.303 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.38.103.542 I slot print_timing: id  3 | task 0 | prompt eval time =     562.30 ms /   195 tokens (    2.88 ms per token,   346.79 tokens per second)
+0.38.103.547 I slot print_timing: id  3 | task 0 |        eval time =     117.83 ms /    16 tokens (    7.86 ms per token,   127.30 tokens per second)
+0.38.103.548 I slot print_timing: id  3 | task 0 |       total time =     680.14 ms /   211 tokens
+0.38.103.548 I slot print_timing: id  3 | task 0 |    graphs reused =          5
+0.38.103.552 I slot print_timing: id  3 | task 0 | draft acceptance = 0.73333 (   11 accepted /    15 generated), mean len =  3.20
+0.38.103.598 I slot      release: id  3 | task 0 | stop processing: n_tokens = 211, truncated = 0
